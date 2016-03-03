@@ -6,6 +6,9 @@ var uglify = require('gulp-uglify');
 var plumber = require('gulp-plumber');
 var cssmin = require('gulp-clean-css');
 var rename = require('gulp-rename');
+var coffee = require('gulp-coffee');
+var sourcemaps = require('gulp-sourcemaps');
+
 var paths = {
 	scripts : {
 		src : 'src/scripts/**/*',
@@ -24,16 +27,27 @@ var paths = {
 gulp.task('styles', function() {
     return gulp.src(paths.styles['src'])
     .pipe(plumber())
+    .pipe(sourcemaps.init())
     .pipe(stylus())
-    .pipe(concat('styles.css'))
+    .pipe(concat({ path: 'styles.css', stat: { mode: 0666 }}))
     .pipe(cssmin({debug: true}, function(details) {
             gutil.log('originalSize: ' + details.stats.originalSize + ' bytes');
             gutil.log('minifiedSize: ' + details.stats.minifiedSize + ' bytes');
         }))
     .pipe(rename({suffix:'.min'}))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.styles['dist']));
 });
 
+gulp.task('script', function() {
+    return gulp.src(paths.scripts['src'])
+    .pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(coffee())
+    .pipe(uglify())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(paths.scripts['dist']))
+});
 gulp.task('default', function() {
     gutil.log('no default - use gulp <task>');
     gutil.log(gutil.colors.green('gulp build'));
