@@ -28,6 +28,7 @@ gulp.task('styles', function() {
     return gulp.src(paths.styles['src'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
+    .pipe(less())
     .pipe(stylus())
     .pipe(concat({ path: 'styles.css', stat: { mode: 0666 }}))
     .pipe(cssmin({debug: true}, function(details) {
@@ -39,15 +40,17 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(paths.styles['dist']));
 });
 
-gulp.task('script', function() {
+gulp.task('scripts', function() {
     return gulp.src(paths.scripts['src'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(coffee())
-    .pipe(uglify())
+    .pipe(concat({ path: 'scripts.js', stat: { mode: 0666 }}))
+   // .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.scripts['dist']))
 });
+
 gulp.task('default', function() {
     gutil.log('no default - use gulp <task>');
     gutil.log(gutil.colors.green('gulp build'));
