@@ -42,10 +42,9 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(paths.styles['dist']));
 });
 
-gulp.task('html', function() {
-    var YOUR_LOCALS = {};
+gulp.task('markup', function() {
     return gulp.src(paths.markup['src'])
-      .pipe(jade({ locals: YOUR_LOCALS }))
+      .pipe(jade({ locals: {} }))
       .pipe(rename({extname:'.html'}))
       .pipe(gulp.dest(paths.markup['dist']));
 });
@@ -61,10 +60,11 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest(paths.scripts['dist']))
 });
 
-gulp.task('watch',['styles','scripts'], function() {
+gulp.task('watch',['styles','scripts','markup'], function() {
     livereload.listen();
     gulp.watch(paths.scripts['src'], ['scripts']);
     gulp.watch(paths.styles['src'], ['styles']);
+    gulp.watch(paths.markup['src'], ['markup']);
 });
 
 gulp.task('default', function() {
