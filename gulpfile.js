@@ -10,7 +10,6 @@ var coffee = require('gulp-coffee');
 var sourcemaps = require('gulp-sourcemaps');
 var livereload = require('gulp-livereload');
 var jade = require('gulp-jade');
-var less = require('gulp-less');
 
 var paths = {
 	scripts : {
@@ -31,7 +30,6 @@ gulp.task('styles', function() {
     return gulp.src(paths.styles['src'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(less())
     .pipe(stylus())
     .pipe(concat({ path: 'styles.css', stat: { mode: 0666 }}))
     .pipe(cssmin({debug: true}, function(details) {
