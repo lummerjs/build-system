@@ -8,6 +8,8 @@ var cssmin = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var coffee = require('gulp-coffee');
 var sourcemaps = require('gulp-sourcemaps');
+var livereload = require('gulp-livereload');
+var jade = require('gulp-jade');
 
 var paths = {
 	scripts : {
@@ -18,9 +20,9 @@ var paths = {
 		src : 'src/styles/**/*',
 		dist : 'build/styles/'
 	},
-	makeup : {
-		src : 'src/makeup/**/*',
-		dist : 'build/makeup/'
+	markup : {
+		src : 'src/markup/**/*',
+		dist : 'build/'
 	}
 };
 
@@ -40,6 +42,14 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(paths.styles['dist']));
 });
 
+gulp.task('html', function() {
+    var YOUR_LOCALS = {};
+    return gulp.src(paths.markup['src'])
+      .pipe(jade({ locals: YOUR_LOCALS }))
+      .pipe(rename({extname:'.html'}))
+      .pipe(gulp.dest(paths.markup['dist']));
+});
+
 gulp.task('scripts', function() {
     return gulp.src(paths.scripts['src'])
     .pipe(plumber())
@@ -49,6 +59,12 @@ gulp.task('scripts', function() {
    // .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.scripts['dist']))
+});
+
+gulp.task('watch',['styles','scripts'], function() {
+    livereload.listen();
+    gulp.watch(paths.scripts['src'], ['scripts']);
+    gulp.watch(paths.styles['src'], ['styles']);
 });
 
 gulp.task('default', function() {
