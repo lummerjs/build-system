@@ -10,6 +10,7 @@ var coffee = require('gulp-coffee');
 var sourcemaps = require('gulp-sourcemaps');
 var livereload = require('gulp-livereload');
 var jade = require('gulp-jade');
+var less = require('gulp-less');
 
 var paths = {
 	scripts : {
