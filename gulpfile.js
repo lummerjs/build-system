@@ -38,14 +38,17 @@ gulp.task('styles', function() {
         }))
     .pipe(rename({suffix:'.min'}))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(paths.styles['dist']));
+    .pipe(gulp.dest(paths.styles['dist']))
+    .pipe(livereload());
 });
 
 gulp.task('markup', function() {
     return gulp.src(paths.markup['src'])
       .pipe(jade({ locals: {} }))
       .pipe(rename({extname:'.html'}))
-      .pipe(gulp.dest(paths.markup['dist']));
+      .pipe(gulp.dest(paths.markup['dist']))
+      .pipe(gulp.dest(paths.markup['dist']))
+      .pipe(livereload());
 });
 
 gulp.task('scripts', function() {
@@ -57,6 +60,7 @@ gulp.task('scripts', function() {
    // .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.scripts['dist']))
+    .pipe(livereload());
 });
 
 gulp.task('watch',['styles','scripts','markup'], function() {
