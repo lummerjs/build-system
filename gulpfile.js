@@ -6,10 +6,8 @@ var uglify = require('gulp-uglify');
 var plumber = require('gulp-plumber');
 var cssmin = require('gulp-clean-css');
 var rename = require('gulp-rename');
-var coffee = require('gulp-coffee');
 var sourcemaps = require('gulp-sourcemaps');
 var livereload = require('gulp-livereload');
-var jade = require('gulp-jade');
 
 var paths = {
 	scripts : {
@@ -44,7 +42,6 @@ gulp.task('styles', function() {
 
 gulp.task('markup', function() {
     return gulp.src(paths.markup['src'])
-      .pipe(jade({ locals: {} }))
       .pipe(rename({extname:'.html'}))
       .pipe(gulp.dest(paths.markup['dist']))
       .pipe(gulp.dest(paths.markup['dist']))
@@ -55,7 +52,6 @@ gulp.task('scripts', function() {
     return gulp.src(paths.scripts['src'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(coffee())
     .pipe(concat({ path: 'scripts.js', stat: { mode: 0666 }}))
    // .pipe(uglify())
     .pipe(sourcemaps.write())
