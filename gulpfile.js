@@ -44,7 +44,6 @@ gulp.task('markup', function() {
     return gulp.src(paths.markup['src'])
       .pipe(rename({extname:'.html'}))
       .pipe(gulp.dest(paths.markup['dist']))
-      .pipe(gulp.dest(paths.markup['dist']))
       .pipe(livereload());
 });
 
