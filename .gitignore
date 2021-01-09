@@ -1,4 +1,3 @@
 node_modules
 build
 .DS_Store
-'package-lock=false'  echo 'package-lock.json' 
